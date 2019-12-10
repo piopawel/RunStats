@@ -14,8 +14,8 @@ def fetch_HTML(url, data=None, username=None, password=None):
             htmlStr = htmlBytes.decode(charset)
         else:
             htmlStr = htmlBytes.decode('utf-8')
-        return htmlStr, response.code
-    except url_error.HTTPError as e:
-        return e.hdrs, e.code
+        return htmlStr
+    # except url_error.HTTPError as e:
+    #     raise e
     except Exception as e:
-        return e
+        raise e

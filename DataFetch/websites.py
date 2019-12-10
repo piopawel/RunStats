@@ -10,7 +10,7 @@ def get_all_parkruns():
     # The endpoint exists for any number higher then the acutual number of runs -
     # You cannot simply check for an 404 error. It has to check if there is a table with results.
         url = f'{url_base}{run_count}'
-        html, response = fetch_HTML(url)
+        html = fetch_HTML(url)
         soup = get_soup_object(html)
         result_rows = get_elements(soup, ".Results-table-row")
         for row in result_rows:
