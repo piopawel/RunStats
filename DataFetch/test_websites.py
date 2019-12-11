@@ -6,11 +6,13 @@ from bs4 import BeautifulSoup
 import codecs
 
 class TestWebsites(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        unittest.TestCase.__init__(self, *args, **kwargs)
+    def setUp(self):
         with codecs.open("./test_files/row.html", "r", encoding='utf-8') as rf:
             row_text = rf.read()
             self.row = soup.get_soup_object(row_text)
+
+    def tearDown(self):
+        pass
 
     def test_soup(self):
         self.assertIsInstance(self.row, BeautifulSoup)
