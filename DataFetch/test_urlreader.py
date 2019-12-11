@@ -18,9 +18,6 @@ class TestUrlReader(unittest.TestCase):
 
     def test__get_HTML_text(self):
 
-        # result, response = urlreader.fetch_HTML("https://www.parkrun.pl/dummy_url")
-        # self.assertEqual(response, 404)
-
         with self.assertRaises(url_error.HTTPError):
             response = urlreader.fetch_response("https://www.parkrun.pl/dummy_url")
             urlreader._get_HTML_text(response)
