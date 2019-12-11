@@ -11,6 +11,10 @@ class TestWebsites(unittest.TestCase):
             row_text = rf.read()
             self.row = soup.get_soup_object(row_text)
 
+
+    # or with @classmethod
+    # def setUpClass(self):
+
     def tearDown(self):
         pass
 
