@@ -1,4 +1,4 @@
-from DataFetch.ParkrunResult import ParkrunResult
+from DataFetch.DbClasses.ParkrunResult import ParkrunResult
 from DataFetch.soup import get_soup_object, check_existence, get_elements
 from DataFetch.urlreader import fetch_HTML
 

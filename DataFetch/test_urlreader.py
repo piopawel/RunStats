@@ -8,9 +8,6 @@ import urllib.error as url_error
 class TestUrlReader(unittest.TestCase):
 
     def test_fetch_response(self):
-        response = urlreader.fetch_response("https://www.parkrun.pl/gdynia/rezultaty/weeklyresults/?runSeqNumber=408")
-        self.assertEqual(response.code, 200)
-
         # test a random page number
         random_number = random.randint(0, 400)
         response = urlreader.fetch_response(f'https://www.parkrun.pl/gdynia/rezultaty/weeklyresults/?runSeqNumber={random_number}')
