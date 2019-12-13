@@ -1,4 +1,5 @@
 from DataFetch.DbClasses import ParkrunEvent
+from DataFetch.DbClasses.ParkrunEventDetailed import ParkrunEventDetailed
 from DataFetch.DbClasses.ParkrunRow import ParkrunRow
 from DataFetch.soup import get_soup_object, check_existence
 from DataFetch.urlreader import get_HTML
@@ -13,12 +14,15 @@ def get_all_parkruns():
         url = f'{url_base}{run_count}'
         html = get_HTML(url)
         soup = get_soup_object(html)
-        event_details = parkrun_parse_row(soup)
+        event = parkrun_parse_row(soup)
+        rows = []
         result_rows = soup.select(".Results-table-row")
         for row in result_rows:
-            result = parkrun_parse_row(row)
-        more_runs = check_existence(soup, ".Results-table")
-        run_count += 1
+            rows.append(parkrun_parse_row(row))
+            more_runs = check_existence(soup, ".Results-table")
+            run_count += 1
+        event_details = ParkrunEventDetailed(event, rows)
+
 
 def parkrun_parse_event(page):
     results_header = page.find('Results-header')

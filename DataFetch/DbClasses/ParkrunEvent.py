@@ -6,6 +6,3 @@ class Event(object):
         date = date
         number = number
         location = location
-
-    def get_json(self):
-        return json.dumps(self)
