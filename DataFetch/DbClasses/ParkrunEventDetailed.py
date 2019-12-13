@@ -8,21 +8,21 @@ class ParkrunEventDetailed(object):
         event = self.__get_event()
         persons = self.__get_persons()
         results = self.__get_results()
-        return event, persons,
+        return event, persons, results
 
     def __get_event(self):
-        return json.dumps(self.event)
+        return json.dumps(self.event.__dict__)
 
     def __get_persons(self):
-        persons = set()
+        persons = []
         for result in self.results:
-            persons.add({"name": result.person, "gender": result.gender,"club": result.club})
+            persons.append({"name": result.name, "gender": result.gender,"club": result.club})
         return json.dumps(persons)
 
     def __get_results(self):
-        results = set()
+        results = []
         for result in self.results:
-            results.add({"event": self.event.number, "person": result.person, "finished": result.finished,
+            results.append({"event": self.event.number, "person": result.name, "finished": result.finished,
                 "age_group": result.age_group, "age_percentage": result.age_percentage, "time": result.time})
         return json.dumps(results)
 

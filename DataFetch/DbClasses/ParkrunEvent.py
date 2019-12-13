@@ -1,8 +1,5 @@
-import json
-
-
-class Event(object):
+class ParkrunEvent(object):
     def __init__(self, date, number, location):
-        date = date
-        number = number
-        location = location
+        self.date = date
+        self.number = number
+        self.location = location
