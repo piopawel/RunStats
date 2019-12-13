@@ -1,4 +1,6 @@
-from DataFetch.DbClasses import ParkrunEvent
+import time
+
+from DataFetch.DbClasses.ParkrunEvent import ParkrunEvent
 from DataFetch.DbClasses.ParkrunEventDetailed import ParkrunEventDetailed
 from DataFetch.DbClasses.ParkrunRow import ParkrunRow
 from DataFetch.soup import get_soup_object, check_existence
@@ -13,27 +15,33 @@ def get_all_parkruns():
     # You cannot simply check for an 404 error. It has to check if there is a table with results.
         url = f'{url_base}{run_count}'
         html = get_HTML(url)
+        time.sleep((run_count % 5) * 200)
         soup = get_soup_object(html)
-        event = parkrun_parse_row(soup)
+        event = parkrun_parse_event(soup)
         rows = []
         result_rows = soup.select(".Results-table-row")
         for row in result_rows:
-            rows.append(parkrun_parse_row(row))
-            more_runs = check_existence(soup, ".Results-table")
-            run_count += 1
-        event_details = ParkrunEventDetailed(event, rows)
+            result = parkrun_parse_row(row, run_count)
+            if result:
+                rows.append(result)
+        event_json, persons_json, results_json = ParkrunEventDetailed(event, rows).get_details()
+        more_runs = check_existence(soup, ".Results-table")
+        run_count += 1
+        # sleep for some time to prevend being blocked
 
 
 def parkrun_parse_event(page):
-    results_header = page.find('Results-header')
-    location = results_header.find('h1')
+    results_header = page.find(class_='Results-header')
+    location = results_header.find('h1').get_text()
     date = results_header.find('h3').get_text()
-    number = results_header.select('span')[1]
+    number = results_header.select('span')[1].get_text()
     return ParkrunEvent(date, number, location)
 
 
-def parkrun_parse_row(row):
+def parkrun_parse_row(row, run):
     name = row['data-name']
+    if name == "Nieznan(a)y": return
+
     position = row['data-position']
     age_group = row['data-agegroup']
     age_percentage = row['data-agegrade']
@@ -41,6 +49,7 @@ def parkrun_parse_row(row):
     gender = row['data-gender']
     result = row.find(class_="Results-table-td--time").find(class_='compact').get_text()
     return ParkrunRow(name, position, age_group, age_percentage, club, gender, result)
+
 
 if __name__ == '__main__':
     get_all_parkruns()
