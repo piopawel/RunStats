@@ -27,7 +27,7 @@ def get_all_parkruns():
         rows = []
         result_rows = soup.select(".Results-table-row")
         for row in result_rows:
-            result = parkrun_parse_row(row, run_count)
+            result = parkrun_parse_row(row)
             if result:
                 rows.append(result)
         event_dict, persons_dict, results_dict = ParkrunEventDetailed(event, rows).get_details()
