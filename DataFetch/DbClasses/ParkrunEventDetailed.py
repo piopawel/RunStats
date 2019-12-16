@@ -1,4 +1,7 @@
 import json
+import re
+
+
 class ParkrunEventDetailed(object):
     def __init__(self, event, results):
         self.event = event
@@ -11,6 +14,8 @@ class ParkrunEventDetailed(object):
         return event, persons, results
 
     def __get_event(self):
+        self.event.location = self.event.location.replace('parkrun ', '')
+        self.event.date = re.sub(r' \| #([0-9]+)', '', self.event.date)
         return self.event.__dict__
 
     def __get_persons(self):
