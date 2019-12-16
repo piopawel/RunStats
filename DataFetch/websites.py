@@ -1,3 +1,5 @@
+import json
+import os
 import time
 
 from DataFetch.DbClasses.ParkrunEvent import ParkrunEvent
@@ -10,6 +12,9 @@ def get_all_parkruns():
     url_base = "https://www.parkrun.pl/gdynia/rezultaty/weeklyresults/?runSeqNumber="
     run_count = 1
     more_runs = True
+    events_dir = os.path.abspath("../WebApp/run_statistics/data")
+    persons_dir = os.path.abspath("../WebApp/users/data")
+    results_dir = os.path.abspath("../WebApp/base/data")
     while more_runs:
     # The endpoint exists for any number higher then the acutual number of runs -
     # You cannot simply check for an 404 error. It has to check if there is a table with results.
@@ -27,7 +32,16 @@ def get_all_parkruns():
         event_json, persons_json, results_json = ParkrunEventDetailed(event, rows).get_details()
         more_runs = check_existence(soup, ".Results-table")
         run_count += 1
-        # sleep for some time to prevend being blocked
+        # sleep for some time to prevent being blocked
+
+def save_data(file_number, event, event_dir, persons, persons_dir, results, results_dir):
+    save_json(event, event_dir, file_number)
+    save_json(persons, persons_dir, file_number)
+    save_json(results, results_dir, file_number)
+
+def save_json(data, save_dir, file_number):
+    with open(os.path.join(save_dir, f'{file_number}.json')) as wf:
+        json.dump(data, wf)
 
 
 def parkrun_parse_event(page):
