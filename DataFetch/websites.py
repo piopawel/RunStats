@@ -11,29 +11,30 @@ from DataFetch.urlreader import get_HTML
 def get_all_parkruns():
     url_base = "https://www.parkrun.pl/gdynia/rezultaty/weeklyresults/?runSeqNumber="
     # run_count = 1
-    run_count = 270
-    more_runs = True
+    run_count = 414
     events_dir = os.path.abspath("../WebApp/run_statistics/data")
     persons_dir = os.path.abspath("../WebApp/users/data")
     results_dir = os.path.abspath("../WebApp/base/data")
-    while more_runs:
+    while True:
     # The endpoint exists for any number higher then the acutual number of runs -
     # You cannot simply check for an 404 error. It has to check if there is a table with results.
         url = f'{url_base}{run_count}'
         html = get_HTML(url)
         time.sleep((run_count % 5))
         soup = get_soup_object(html)
-        event = parkrun_parse_event(soup)
-        rows = []
-        result_rows = soup.select(".Results-table-row")
-        for row in result_rows:
-            result = parkrun_parse_row(row)
-            if result:
-                rows.append(result)
-        event_dict, persons_dict, results_dict = ParkrunEventDetailed(event, rows).get_details()
-        save_data(run_count, event_dict, events_dir, persons_dict, persons_dir, results_dict, results_dir)
-        more_runs = check_existence(soup, ".Results-table")
-        run_count += 1
+        if check_existence(soup, ".Results-table tr"):
+            event = parkrun_parse_event(soup)
+            rows = []
+            result_rows = soup.select(".Results-table-row")
+            for row in result_rows:
+                result = parkrun_parse_row(row)
+                if result:
+                    rows.append(result)
+            event_dict, persons_dict, results_dict = ParkrunEventDetailed(event, rows).get_details()
+            save_data(run_count, event_dict, events_dir, persons_dict, persons_dir, results_dict, results_dir)
+            run_count += 1
+        else:
+            break
         # sleep for some time to prevent being blocked
 
 def save_data(file_number, event, event_dir, persons, persons_dir, results, results_dir):

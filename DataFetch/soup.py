@@ -5,6 +5,6 @@ def get_soup_object(html):
 
 def check_existence(soup, selector):
     objects = soup.select(selector)
-    if objects[0]:
+    if len(objects) > 1:
         return True
     return False
