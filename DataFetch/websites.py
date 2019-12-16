@@ -11,7 +11,7 @@ from DataFetch.urlreader import get_HTML
 def get_all_parkruns():
     url_base = "https://www.parkrun.pl/gdynia/rezultaty/weeklyresults/?runSeqNumber="
     # run_count = 1
-    run_count = 44
+    run_count = 270
     more_runs = True
     events_dir = os.path.abspath("../WebApp/run_statistics/data")
     persons_dir = os.path.abspath("../WebApp/users/data")
@@ -42,7 +42,7 @@ def save_data(file_number, event, event_dir, persons, persons_dir, results, resu
     save_json(results, results_dir, file_number)
 
 def save_json(data, save_dir, file_number):
-    with open(os.path.join(save_dir, f'{file_number:04d}.json'), "w") as wf:
+    with open(os.path.join(save_dir, f'{file_number:04d}.json'), "w", encoding='utf-8') as wf:
         json.dump(data, wf, indent=4, ensure_ascii=False)
         # wf.write(data)
 
@@ -53,7 +53,6 @@ def parkrun_parse_event(page):
     date = results_header.find('h3').get_text()
     number = results_header.select('span')[1].get_text()
     return ParkrunEvent(date, number, location)
-
 
 def parkrun_parse_row(row):
     name = row['data-name']
