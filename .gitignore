@@ -119,3 +119,4 @@ WebApp/base/data/
 WebApp/run_statistics/data/
 WebApp/users/data/
 DataFetch/additional/location_change.py
+DataFetch/additional/

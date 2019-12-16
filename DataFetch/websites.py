@@ -55,7 +55,7 @@ def parkrun_parse_event(page):
     return ParkrunEvent(date, number, location)
 
 
-def parkrun_parse_row(row, run):
+def parkrun_parse_row(row):
     name = row['data-name']
     if name == "Nieznan(a)y": return
 
