@@ -1,3 +1,4 @@
+import datetime
 import json
 import re
 
@@ -15,7 +16,9 @@ class ParkrunEventDetailed(object):
 
     def __get_event(self):
         self.event.location = self.event.location.replace('parkrun ', '')
-        self.event.date = re.sub(r' \| #([0-9]+)', '', self.event.date)
+        date = re.sub(r' \| #([0-9]+)', '', self.event.date)
+        self.event.date = datetime.datetime.strptime(date, '%d/%m/%Y').strftime("%Y-%m-%d")
+        self.event.number = self.event.number.replace(r'#', '')
         return self.event.__dict__
 
     def __get_persons(self):
