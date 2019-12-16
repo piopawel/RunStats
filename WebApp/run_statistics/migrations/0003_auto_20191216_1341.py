@@ -17,8 +17,6 @@ def add_events(apps, schema_editor):
         number = data['number']
         location = data['location']
         Event.objects.get_or_create(date=date, number=number, location=location)
-        # new_event = Event(date=date, number=number, location=location)
-        # new_event.save()
 
 class Migration(migrations.Migration):
 
