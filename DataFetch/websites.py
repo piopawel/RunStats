@@ -10,7 +10,8 @@ from DataFetch.urlreader import get_HTML
 
 def get_all_parkruns():
     url_base = "https://www.parkrun.pl/gdynia/rezultaty/weeklyresults/?runSeqNumber="
-    run_count = 1
+    # run_count = 1
+    run_count = 44
     more_runs = True
     events_dir = os.path.abspath("../WebApp/run_statistics/data")
     persons_dir = os.path.abspath("../WebApp/users/data")
@@ -20,7 +21,7 @@ def get_all_parkruns():
     # You cannot simply check for an 404 error. It has to check if there is a table with results.
         url = f'{url_base}{run_count}'
         html = get_HTML(url)
-        time.sleep((run_count % 5) * 200)
+        time.sleep((run_count % 5))
         soup = get_soup_object(html)
         event = parkrun_parse_event(soup)
         rows = []
@@ -29,7 +30,8 @@ def get_all_parkruns():
             result = parkrun_parse_row(row, run_count)
             if result:
                 rows.append(result)
-        event_json, persons_json, results_json = ParkrunEventDetailed(event, rows).get_details()
+        event_dict, persons_dict, results_dict = ParkrunEventDetailed(event, rows).get_details()
+        save_data(run_count, event_dict, events_dir, persons_dict, persons_dir, results_dict, results_dir)
         more_runs = check_existence(soup, ".Results-table")
         run_count += 1
         # sleep for some time to prevent being blocked
@@ -40,8 +42,9 @@ def save_data(file_number, event, event_dir, persons, persons_dir, results, resu
     save_json(results, results_dir, file_number)
 
 def save_json(data, save_dir, file_number):
-    with open(os.path.join(save_dir, f'{file_number}.json')) as wf:
-        json.dump(data, wf)
+    with open(os.path.join(save_dir, f'{file_number:04d}.json'), "w") as wf:
+        json.dump(data, wf, indent=4, ensure_ascii=False)
+        # wf.write(data)
 
 
 def parkrun_parse_event(page):

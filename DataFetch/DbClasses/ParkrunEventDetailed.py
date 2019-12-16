@@ -11,18 +11,22 @@ class ParkrunEventDetailed(object):
         return event, persons, results
 
     def __get_event(self):
-        return json.dumps(self.event.__dict__)
+        return self.event.__dict__
 
     def __get_persons(self):
         persons = []
         for result in self.results:
-            persons.append({"name": result.name, "gender": result.gender,"club": result.club})
-        return json.dumps(persons)
+            if result.gender == "Kobieta":
+                gender = "K"
+            else:
+                gender = "M"
+            persons.append({"name": result.name, "gender": gender, "club": result.club})
+        return persons
 
     def __get_results(self):
         results = []
         for result in self.results:
             results.append({"event": self.event.number, "person": result.name, "finished": result.finished,
                 "age_group": result.age_group, "age_percentage": result.age_percentage, "time": result.time})
-        return json.dumps(results)
+        return results
 

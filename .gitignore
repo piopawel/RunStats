@@ -115,3 +115,6 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 .idea/
+WebApp/base/data/
+WebApp/run_statistics/data/
+WebApp/users/data/
