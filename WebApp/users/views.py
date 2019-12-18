@@ -10,3 +10,7 @@ class RunnersListView(ListView):
     context_object_name = 'profiles'
     ordering = ['name']
 
+def profile_view(request, pk):
+    context = {'profile': Profile.objects.filter(pk=pk).first()}
+    return render(request, 'users/profile.html', context)
+

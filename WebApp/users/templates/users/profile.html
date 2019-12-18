@@ -1,0 +1,10 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+  <h1>Profile: </h1>
+  <h2 class="account-heading">{{profile.name}}</h2>
+  <p class="text-secondary">{{profile.gender}}</p>
+  {% if profile.club%}
+    <p class="text-secondary">{{profile.club}}</p>
+  {% endif %}
+{% endblock content%}
