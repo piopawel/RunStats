@@ -1,5 +1,19 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-  <p>Hello, we are runners.</p>
+  <h3> Total number of runners: {{profiles.count}}</h3>
+  <table>
+    <tr>
+      <td> Name </td>
+      <td> Gender </td>
+      <td> Club </td>
+    </tr>
+  {% for profile in profiles %}
+      <tr>
+        <td> {{profile.name}}</td>
+        <td> {{profile.gender}}</td>
+        <td> {{profile.club}}</td>
+      </tr>
+  {% endfor %}
+  </table>
 {% endblock content%}
