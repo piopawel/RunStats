@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def runners_list(request):
+    return render(request, 'users/runners-list.html')

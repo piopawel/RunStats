@@ -16,7 +16,7 @@
       <title>Django blog</title>
   {% endif %}
 </head>
-<body style="background:red">
+<body>
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
       <div class="container">
@@ -27,6 +27,7 @@
         <div class="collapse navbar-collapse" id="navbarToggle">
           <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'runners-list' %}">All runners</a>
           </div>
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
@@ -54,7 +55,6 @@
           {% endfor %}
         {% endif %}
 
-          <h3> From the base html</h3>
         {% block content %}
 
         {% endblock %}
