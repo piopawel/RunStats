@@ -10,9 +10,9 @@
     </tr>
   {% for profile in profiles %}
       <tr>
-        <td> {{profile.name}}</td>
-        <td> {{profile.gender}}</td>
-        <td> {{profile.club}}</td>
+        <td><a href="{% url 'runner-profile' profile.pk %}">{{profile.name}}</a></td>
+        <td><a>{{profile.gender}}</a></td>
+        <td><a>{{profile.club}}</a></td>
       </tr>
   {% endfor %}
   </table>
